@@ -22,4 +22,25 @@ select * from detalle_alquiler
 select distinct(codviv)as departamento from detalle_alquiler
 SELECT EOMONTH(02/12/2018) 
 
+--Zecarlos Salcedo: 
+ 
+--TOTAL DE PAGOS DE  INQUILINOS CUYA FECHA DE INICIO DE ALQUILER EMPIEZAN EN 2018 
+select * from alquiler where  to_char(fecinalq,'yyyy') like '2018'
+	 
+--LISTAR LOS PAGOS DE ALQUILER DE VIVIENDA FECHA  POR  MES Y AÑO 
+select sum(costdetalq) from detalle_alquiler where to_char(fecfindetalq,'YYYY') = '2018'
+select sum(costdetalq) from detalle_alquiler where to_char(fecfindetalq,'MM') = '05'
+
+--LISTAR INQUILINO POR VIVIENDA  Y UBIGEO 
+select vivienda.descviv ,perosna.nomper,UBIGEO.DISTUBI  ||  UBIGEO.PROVUBI || UBIGEO.DPTOUBI AS UBIGEO from detalle_alquiler
+inner join vivienda on vivienda.codviv=detalle_alquiler.codviv
+inner join alquiler on alquiler.codalq=detalle_alquiler.codalq
+inner join perosna on perosna.codper=alquiler.codper
+inner join UBIGEO on UBIGEO.CODUBI = PEROSNA.CODUBI
+--CUANTAS  VIVIENDA SE ALQUILARON EN EL 2018 + UBIGEO 
+select fecinalq,PEROSNA.NOMPER as imquilino , UBIGEO.DISTUBI  ||  UBIGEO.PROVUBI || UBIGEO.DPTOUBI AS UBIGEO  from alquiler 
+inner join PEROSNA on PEROSNA.CODPER = alquiler.CODPER
+inner join UBIGEO on UBIGEO.CODUBI = PEROSNA.CODUBI
+where  to_char(fecinalq,'yyyy') like '2018'
+
 
